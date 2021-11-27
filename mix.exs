@@ -29,6 +29,7 @@ defmodule ExMicrolink.MixProject do
   defp deps do
     [
       {:ecto_sql, ">= 3.7.1"},
+      {:ex_doc, "~> 0.14", only: :dev, runtime: false},
       {:html_sanitize_ex, ">= 1.4.2"},
       {:req, ">= 0.2.1"},
       {:typed_struct, ">= 0.2.1"}
@@ -38,8 +39,7 @@ defmodule ExMicrolink.MixProject do
   defp package() do
     [
       # These are the default files included in the package
-      files: ~w(lib priv .formatter.exs mix.exs README* readme* LICENSE*
-                license* CHANGELOG* changelog* src),
+      files: ~w(lib .formatter.exs mix.exs README*),
       licenses: ["Apache-2.0"],
       links: %{"GitHub" => "https://github.com/the-vinner/ex_microlink"}
     ]
