@@ -23,7 +23,7 @@ defmodule ExMicrolink.Request do
   end
 end
 
-defimpl String.Chars, for: Request do
+defimpl String.Chars, for: ExMicrolink.Request do
   def to_string(req) do
     Map.from_struct(req)
     |> Enum.reduce(
