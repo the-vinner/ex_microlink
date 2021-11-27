@@ -1,6 +1,6 @@
 defmodule ExMicrolink do
   alias ExMicrolink.{Request, Response}
-  @endpoint "https://api.microlink.io"
+  @endpoint URI.parse("https://api.microlink.io")
 
   @moduledoc """
   Documentation for `ExMicrolink`.
@@ -58,7 +58,48 @@ defmodule ExMicrolink do
   end
   def parse_image(l), do: l
 
+  @doc ~S"""
+  Queries the Microlink API for link daa
 
+  ## Examples
+
+      iex> ExMicrolink.run(%{url: "https://en.wikipedia.org/wiki/Richard_Feynman"})
+      {
+        :ok,
+        %ExMicrolink.Response{
+          author: "Contributors to Wikimedia projects",
+          content_length: 109606,
+          content_type: "text/html; charset=UTF-8",
+          date: "2021-11-25T23:05:20.000Z",
+          description: "Richard Feynman",
+          error: nil,
+          iframe: nil,
+          image: %{
+            height: 396,
+            size: 55543,
+            size_pretty: "55.5 kB",
+            type: "jpg",
+            url: "https://upload.wikimedia.org/wikipedia/en/4/42/Richard_Feynman_Nobel.jpg",
+            width: 280
+          },
+          lang: "en",
+          logo: %{
+            height: 160,
+            size: 1313,
+            size_pretty: "1.31 kB",
+            type: "png",
+            url: "https://en.wikipedia.org/static/apple-touch/wikipedia.png",
+            width: 160
+          },
+          publisher: "Wikimedia Foundation, Inc.",
+          screenshot: nil,
+          status: 200,
+          title: "Richard Feynman - Wikipedia",
+          url: "https://en.wikipedia.org/wiki/Richard_Feynman"
+        }
+      }
+
+  """
   def run(request) do
     Request.changeset(request)
     |> case do
