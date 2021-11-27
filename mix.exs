@@ -1,6 +1,10 @@
 defmodule ExMicrolink.MixProject do
   use Mix.Project
 
+  defp description() do
+    "A simple Elixir-based API wrapper for Microlink (https://microlink.io/)"
+  end
+
   def project do
     [
       app: :ex_microlink,
