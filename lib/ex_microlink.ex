@@ -120,7 +120,7 @@ defmodule ExMicrolink do
             receive_timeout: 60_000
           ]
         ])
-        |> transform_to_response
+        |> transform_to_response(Ecto.Changeset.get_field(cs, :url))
         |> then(fn res -> {:ok, res} end)
     end
   end
@@ -178,7 +178,7 @@ defmodule ExMicrolink do
       # },
     },
     status: 200
-  } = resp) do
+  } = resp, _) do
     %Response{
       author: author,
       content_length: parse_content_length(headers["content-length"]),
@@ -196,9 +196,10 @@ defmodule ExMicrolink do
       url: url
     }
   end
-  def transform_to_response(%Req.Response{body: body, status: status}) do
+  def transform_to_response(%Req.Response{body: body, status: status}, url) do
     %Response{
       error: body,
+      url: url,
       status: status
     }
   end
