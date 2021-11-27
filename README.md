@@ -1,6 +1,6 @@
 # ExMicrolink
 
-**TODO: Add description**
+An Elixir wrapper for the Microlink API [https://microlink.io/](https://microlink.io/)
 
 ## Installation
 
