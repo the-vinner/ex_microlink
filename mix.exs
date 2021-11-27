@@ -11,7 +11,10 @@ defmodule ExMicrolink.MixProject do
       version: "0.1.0",
       elixir: "~> 1.12",
       start_permanent: Mix.env() == :prod,
-      deps: deps()
+      description: description(),
+      package: package(),
+      deps: deps(),
+      source_url: "https://github.com/the-vinner/ex_microlink"
     ]
   end
 
@@ -26,9 +29,19 @@ defmodule ExMicrolink.MixProject do
   defp deps do
     [
       {:ecto_sql, ">= 3.7.1"},
-      {:html_sanitize_ex, ">= 1.3.0-rc3"},
+      {:html_sanitize_ex, ">= 1.4.2"},
       {:req, ">= 0.2.1"},
       {:typed_struct, ">= 0.2.1"}
+    ]
+  end
+
+  defp package() do
+    [
+      # These are the default files included in the package
+      files: ~w(lib priv .formatter.exs mix.exs README* readme* LICENSE*
+                license* CHANGELOG* changelog* src),
+      licenses: ["Apache-2.0"],
+      links: %{"GitHub" => "https://github.com/the-vinner/ex_microlink"}
     ]
   end
 end
