@@ -39,66 +39,48 @@ defmodule ExMicrolink do
   end
   def parse_iframe(_), do: nil
 
-  def parse_image(%{
-    "height" => h,
-    "size" => size,
-    "size_pretty" => size_pretty,
-    "type" => type,
-    "url" => url,
-    "width" => w
-  }) do
-    %{
-      height: h,
-      size: size,
-      size_pretty: size_pretty,
-      type: type,
-      url: url,
-      width: w
-    }
-  end
-  def parse_image(l), do: l
-
   @doc ~S"""
-  Queries the Microlink API for link daa
+  Queries the Microlink API for link data
 
   ## Examples
 
-      iex> ExMicrolink.run(%{url: "https://en.wikipedia.org/wiki/Richard_Feynman"})
+      iex> ExMicrolink.run(%{url: "https://www.lapresse.ca/sports/hockey/2021-11-26/canadien-sabres/le-retour-de-joel-edmundson-devra-attendre.php"})
       {
         :ok,
         %ExMicrolink.Response{
-          author: "Contributors to Wikimedia projects",
-          content_length: 109606,
+          author: "Richard Labbé La Presse",
+          content_length: 43106,
           content_type: "text/html; charset=UTF-8",
-          date: "2021-11-25T23:05:20.000Z",
-          description: "Richard Feynman",
+          date: "2021-11-26T16:57:43.000Z",
+          description: "Le Canadien espérait pouvoir miser sur le retour imminent de Joel Edmundson… mais ça devra attendre.",
           error: nil,
           iframe: nil,
-          image: %{
-            height: 396,
-            size: 55543,
-            size_pretty: "55.5 kB",
+          image: %ExMicrolink.Image{
+            height: 616,
+            id: nil,
+            size: 187745,
+            size_pretty: "188 kB",
             type: "jpg",
-            url: "https://upload.wikimedia.org/wikipedia/en/4/42/Richard_Feynman_Nobel.jpg",
-            width: 280
+            url: "https://mobile-img.lpcdn.ca/v2/924x/r3996/cfe89f4e158a36afb584bc1528e07ea3.jpg",
+            width: 924
           },
-          lang: "en",
-          logo: %{
-            height: 160,
-            size: 1313,
-            size_pretty: "1.31 kB",
+          lang: "fr",
+          logo: %ExMicrolink.Image{
+            height: 192,
+            id: nil,
+            size: 12311,
+            size_pretty: "12.3 kB",
             type: "png",
-            url: "https://en.wikipedia.org/static/apple-touch/wikipedia.png",
-            width: 160
+            url: "https://www.lapresse.ca/android-chrome-192x192.png",
+            width: 192
           },
-          publisher: "Wikimedia Foundation, Inc.",
-          screenshot: nil,
+          publisher: "La Presse",
+          screenshot: %ExMicrolink.Image{height: nil, id: nil, size: nil, size_pretty: nil, type: nil, url: nil, width: nil},
           status: 200,
-          title: "Richard Feynman - Wikipedia",
-          url: "https://en.wikipedia.org/wiki/Richard_Feynman"
+          title: "Canadien – Sabres | Le retour de Joel Edmundson devra attendre",
+          url: "https://www.lapresse.ca/sports/hockey/2021-11-26/canadien-sabres/le-retour-de-joel-edmundson-devra-attendre.php"
         }
       }
-
   """
   def run(request) do
     Request.changeset(request)
@@ -185,12 +167,12 @@ defmodule ExMicrolink do
       content_type: headers["content-type"],
       date: date,
       description: description,
-      image: parse_image(resp.body["data"]["image"]),
+      image: ExMicrolink.Image.changeset(resp.body["data"]["image"]),
       iframe: parse_iframe(resp.body["data"]["iframe"]),
       lang: lang,
-      logo: parse_image(resp.body["data"]["logo"]),
+      logo: ExMicrolink.Image.changeset(resp.body["data"]["logo"]),
       publisher: publisher,
-      screenshot: parse_image(resp.body["data"]["screenshot"]),
+      screenshot: ExMicrolink.Image.changeset(resp.body["data"]["screenshot"]),
       status: 200,
       title: title,
       url: url
