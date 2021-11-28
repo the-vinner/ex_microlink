@@ -19,6 +19,13 @@ defmodule ExMicrolink do
   end
   def parse_content_length(_), do: nil
 
+  def parse_date(date) do
+    case DateTime.from_iso8601(date) do
+      {:ok, datetime, _offset} -> datetime
+      _ -> nil
+    end
+  end
+
   def parse_iframe(%{
     "html" => html,
     "scripts" => scripts
@@ -51,7 +58,8 @@ defmodule ExMicrolink do
           author: "Richard Labbé La Presse",
           content_length: 43106,
           content_type: "text/html; charset=UTF-8",
-          date: "2021-11-26T16:57:43.000Z",
+          date: ~U[2021-11-26 16:57:43.000Z],
+          date_raw: "2021-11-26T16:57:43.000Z",
           description: "Le Canadien espérait pouvoir miser sur le retour imminent de Joel Edmundson… mais ça devra attendre.",
           error: nil,
           iframe: nil,
@@ -165,7 +173,8 @@ defmodule ExMicrolink do
       author: author,
       content_length: parse_content_length(headers["content-length"]),
       content_type: headers["content-type"],
-      date: date,
+      date: parse_date(date),
+      date_raw: date,
       description: description,
       image: ExMicrolink.Image.changeset(resp.body["data"]["image"]),
       iframe: parse_iframe(resp.body["data"]["iframe"]),
