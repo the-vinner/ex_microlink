@@ -32,14 +32,20 @@ defmodule ExMicrolink do
   }) do
     %{
       html: HtmlSanitizeEx.html5(html),
-      scripts: Enum.map(
+      scripts: Enum.reduce(
         scripts || [],
-        fn %{"async" => a, "src" => src, "charset" => c} ->
-          %{
-            async: a,
-            charset: c,
-            src: src
-          }
+        [],
+        fn
+          %{"src" => src} = script, accumulator ->
+            accumulator ++ [
+              %{
+                async: Map.get(script, "async"),
+                charset: Map.get(script, "charset"),
+                src: src
+              }
+            ]
+          _, accumulator ->
+            accumulator
         end
       )
     }
@@ -56,7 +62,7 @@ defmodule ExMicrolink do
         :ok,
         %ExMicrolink.Response{
           author: "Richard Labbé La Presse",
-          content_length: 43106,
+          content_length: 33719,
           content_type: "text/html; charset=UTF-8",
           date: ~U[2021-11-26 16:57:43.000Z],
           date_raw: "2021-11-26T16:57:43.000Z",
