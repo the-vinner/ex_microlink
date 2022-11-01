@@ -31,7 +31,7 @@ defmodule ExMicrolink.MixProject do
       {:ecto_sql, ">= 3.7.1"},
       {:ex_doc, "~> 0.14", only: :dev, runtime: false},
       {:html_sanitize_ex, ">= 1.4.2"},
-      {:req, ">= 0.2.1"},
+      {:req, ">= 0.3.0"},
       {:typed_struct, ">= 0.2.1"}
     ]
   end
