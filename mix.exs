@@ -8,7 +8,7 @@ defmodule ExMicrolink.MixProject do
   def project do
     [
       app: :ex_microlink,
-      version: "0.2.3",
+      version: "0.2.4",
       elixir: "~> 1.12",
       start_permanent: Mix.env() == :prod,
       description: description(),
