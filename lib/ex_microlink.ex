@@ -20,12 +20,14 @@ defmodule ExMicrolink do
 
   def parse_content_length(_), do: nil
 
-  def parse_date(date) do
+  def parse_date(date) when is_binary(date) do
     case DateTime.from_iso8601(date) do
       {:ok, datetime, _offset} -> datetime
       _ -> nil
     end
   end
+
+  def parse_date(_), do: nil
 
   def parse_iframe(%{
         "html" => html,
